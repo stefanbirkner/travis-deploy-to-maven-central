@@ -1,0 +1,13 @@
+language: java
+install: mvn -DskipTests -Dgpg.skip install
+after_success:
+- gpg --version
+- gpg2 --version
+- mvn clean deploy
+    --settings ci/settings.xml
+    -Dgpg.executable=gpg2
+    -Dgpg.keyname=08C1F6A3
+    -Dgpg.passphrase=passphrase
+    -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
+    -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg
+    -Dgpg.defaultKeyring=false
