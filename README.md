@@ -36,3 +36,8 @@ Artifacts that are uploaded to Maven Central must be signed. Therefore you need
 GPG keys. Create your GPG keys with
 
     gpg --generate-keys
+
+Export your public and private key
+
+    gpg --export --armor someone@somewhere > ci/signingkey.asc
+    gpg --export-secret-keys --armor someone@somewhere >> ci/signingkey.asc
