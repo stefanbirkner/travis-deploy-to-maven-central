@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 apt-get update
-apt-get install -y gnupg2 ruby-dev
+# travis cannot be installed without gcc and make
+apt-get install -y gcc make ruby-dev
 
-# installing travis client needs Ruby 2. Cannot be done now
-#gem install travis
+gem install travis
 
 # generate enough entropy for GnuPG
 apt-get install -y rng-tools

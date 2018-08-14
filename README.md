@@ -20,7 +20,7 @@ continuous deployment to maven central from Travis CI"](http://www.debonair.io/p
 
 ## Prerequisites
 
-You need [GnuPG 2.0.x](https://gnupg.org/) for signing the artifacts and the
+You need [GnuPG 2.x](https://gnupg.org/) for signing the artifacts and the
 [Travis Client](https://github.com/travis-ci/travis.rb#readme) for encrypting
 secrets. If you don't have them on your local machine then you can use a VM.
 This repository supports [Vagrant](https://www.vagrantup.com/). With
@@ -35,7 +35,7 @@ you can start a VM with the necessary tools.
 Artifacts that are uploaded to Maven Central must be signed. Therefore you need
 GPG keys. Create your GPG keys with
 
-    gpg --generate-keys
+    gpg --generate-key
 
 Export your public and private key
 

@@ -15,7 +15,6 @@ after_success:
 - mvn clean deploy
     --settings ci/settings.xml
     -Dgpg.executable=gpg2
-    -Dgpg.keyname=08C1F6A3
+    -Dgpg.keyname=5F84CD1775351968CABF0B0D779D2423E1D24D89
     -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg
     -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
-    -Dgpg.passphrase=passphrase
