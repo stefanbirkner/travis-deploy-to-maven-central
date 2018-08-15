@@ -3,18 +3,19 @@ install: mvn -DskipTests -Dgpg.skip install
 after_success:
 - gpg --version
 - gpg2 --version
-- gpg2
-    --keyring=$TRAVIS_BUILD_DIR//pubring.gpg
-    --no-default-keyring
-    --import ci/signingkey.asc
-- gpg2
-    --allow-secret-key-import
-    --keyring=$TRAVIS_BUILD_DIR//secring.gpg
-    --no-default-keyring
-    --import ci/signingkey.asc
-- mvn clean deploy
-    --settings ci/settings.xml
-    -Dgpg.executable=gpg2
-    -Dgpg.keyname=5F84CD1775351968CABF0B0D779D2423E1D24D89
-    -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg
-    -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
+- echo "PASSPHRASE start"
+- echo $PASSPHRASE
+- echo "$PASSPHRASE"
+- echo $TRAVIS_BUILD_DIR
+- echo "$TRAVIS_BUILD_DIR"
+- echo "PASSPHRASE end"
+- gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import ci/signingkey.asc
+- gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR//secring.gpg --no-default-keyring
+  --import ci/signingkey.asc
+- mvn clean deploy --settings ci/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname=5F84CD1775351968CABF0B0D779D2423E1D24D89
+  -Dgpg.passphrase=$PASSPHRASE -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
+env:
+  global:
+  - secure: HvUavKTxAgysaA/t8encAeJh1Z2hFXIWlLBgCNmaY32p45Du+rXgwEAONHqpp5v11Z11uLcGry+UUgOFzt2grvxPGldzPYBHVWEc78C39+JsWmz1z+dw6ZtiT8PADSQo05Ai90Luf4KqYxP8QCQ5qgLe/9uA+2R7b1MKmPIGJGwx+CgemKv9P3p7Vy2sNOYCvlSnWx1sbRxG/0cX66eF1b/w32kUAFmWtXwZ/1UgBg3LsCrwFLEdP1m4lJHNL+3vFoVhsMev4sC/XCNnBcSqbdRHplMHLulu4OKfC98NGDs6wPo9vcmfMz44IxjWbwcUEE3h7rQDkdc6KcfQWMQ/tVSMDoAkNDXaPmato3GVZGalmQLBO7M8SAkcpTknZQXV3vXDTqMcW2tDFd7LDsA0Iv9RanHeZptpY4v67HmNFqTJv/LdW5A5fePcb6YaguN21S/hSEy7YvkWUMQUFSg7EHEYm183DARIbCWMgxKZ96rwCc2D8CcaP5AK23LIRib2HOYZ4r8fpXX8lQEn2arvhurAwemoqRccKV8Ee0L5EEQGq++3Dqyv1q4OeQmXP+2ikbd+ZQKH91Tpw5VZMC/CDLR4R4u1+fA/RJyIuTyepEErJoEvZ7/EONiV7rbMzZLT5naWdNxhglZAgJHy4Ir2myPYQ8mE6YiwZhjhdqy7R48=
+  - secure: Vm6oE5GR1s/3xKJwarDH5sJzH08ywLM0n3aXmVINcDVgVyVVwPj9A87QzueGZjJCF/lhVdVxG1CDqbEzTUXcZdBRrwaKmwOq0xD9q4qXH3Bh7A1Ch4vCUKOkZYjga3UkQPkpXItNVtoEPFzDevZSvckZylpxtEc27JVwgU/tyeV2dNQokEPZV0zE1tudKfLjDufpgF01KUzOVOnWHpOhkHlB0pSJFZC8qg/FDK/mU40KgfSE0bFRv6LGOPdhZN9m+AaBGMxTaZVVf9YWLi98RkyuVrxI9u4pGVbDj3tmvoALotj/qqD3afvvzP7CfXjUkkDy+J1lf5PkUWPUGpnwZtgMfBwbk2bN8FgYzNbk2Hby52az8gVwwV+Q1YzwHvRCu74XspJ1VjRBuBjysXJhe5iwV2UaRcAyxoPyl1qDIRvOiBupnivFZ8lF4z2xkxktLJl+kQfuaTa+G28fMy0fb7Cv7M4HPLiYkrXed3D5Gnq15wVz4FvyXDJxyZeU8HqW5PM53OCx44xTFrJ7QyZgygL8PMz4TM4O475YrhDPBYVe5AgwGzJPSOygBsxt3M9dRRbx6qf8PeCPFLyWHYw6a0NwXG+2P2/k3T0sfngpCB90eM2NXeSrq1mXv43P1dN8V8EwHN/Q4IU7cG8oKKNa/U8f041lwK9hH1ScGW04w1k=
+  - secure: f5RN57P1Z40X/tFQOXpxo4y/PDXQzHrKqghFXNgeHtkIygLVB28fRXA77Hgb6i/cv0V0ePs/2wHYPP6iWsAKVi3GthU1YUzoLtt+o/XfleBVKMyRpqYvjDXfD6gTpvLzFkktHMbZ3eE6nrDBWjm94yvu/C1Y+1uNqzqL7E8tXqxF8qXWegCYCh/qZfiNQNF0slZBUrasx0z28jIBirwSARoCQSFDuc5DOow1VDOsrqxXHwWJt/zWzM4gJLNYRqH+2VqifkwEx1vS1zVpLRcGzSchIS2dRXlpVLhmSNWn2F1dEJNgzUbsdeeELLoJGTmD8Oo8Dyg4YWQ4xeqAMFRbiQ83aY760BKStDBeLXR25cRCSb2/d0Y5KbAfgG3JuEEZWKsAB2aRcXYfaNAKRgPqvVrxl+kc1fnl2/J2/n+6YWF35i9I5cJ4QmZwcSDRf7SWZA8zKlt+b484+yLWLgw3O7OjGxzzucXYe9MQlF0pkJ5EP4Rg7jWRUhwFr23iqCSkzfxDGujcMq2kv/+goW+aH3sayj3tYuT7r+Vs3VG2knknzuv54c9LKRINXiTWmXO3rp4R4MifpC99lMV2vhngpgHF5S275NCcVnzco8/8gQfeocDvX82YYXFmfd0MeAs8kesK/BYh3vSnL1+pbpx7U8fdZHLQUbD89x/Gmih18vs=

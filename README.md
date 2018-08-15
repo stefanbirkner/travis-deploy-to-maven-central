@@ -41,3 +41,23 @@ Export your public and private key
 
     gpg --export --armor someone@somewhere > ci/signingkey.asc
     gpg --export-secret-keys --armor someone@somewhere >> ci/signingkey.asc
+
+
+## Store Secrets
+
+Travis needs to know your passphrase, and Sonatype credentials for deploying to
+Maven Central. These are secrets and therefore you must not store them as
+plaintext in your repository. Therefore Travis provides [support for encrypting
+secrets.](https://docs.travis-ci.com/user/encryption-keys/) The ciphertexts can
+be stored in the repository. First you need to login to Travis
+
+    travis login --pro
+
+and then encrypt the secrects and add them to you `.travis.yml` file
+
+    travis encrypt PASSPHRASE=... --pro --add
+    travis encrypt SONATYPE_USERNAME=... --pro --add
+    travis encrypt SONATYPE_PASSWORD=... --pro --add
+
+The flag `--pro` must not be used if your project is still built on
+travis-ci.org (all new projects are built on travis-ci.com).
