@@ -1,2 +1,3 @@
 .vagrant
+deployment/signingkey.asc
 target

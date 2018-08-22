@@ -39,8 +39,8 @@ GPG keys. Create your GPG keys with
 
 Export your public and private key
 
-    gpg --export --armor someone@somewhere > ci/signingkey.asc
-    gpg --export-secret-keys --armor someone@somewhere >> ci/signingkey.asc
+    gpg --export --armor someone@somewhere > deployment/signingkey.asc
+    gpg --export-secret-keys --armor someone@somewhere >> deployment/signingkey.asc
 
 
 ## Store Secrets
@@ -58,6 +58,14 @@ and then encrypt the secrects and add them to you `.travis.yml` file
     travis encrypt PASSPHRASE=... --pro --add
     travis encrypt SONATYPE_USERNAME=... --pro --add
     travis encrypt SONATYPE_PASSWORD=... --pro --add
+
+You also need to encrupt the file with the GPG keys.
+
+    travis encrypt-file deployment/signingkey.asc deployment/signingkey.asc.enc --pro --add
+
+Delete the unencrypted file afterwards
+
+    rm deployment/signingkey.asc
 
 The flag `--pro` must not be used if your project is still built on
 travis-ci.org (all new projects are built on travis-ci.com).
